@@ -12,9 +12,10 @@ namespace Another_Morrowind_Utility.FileStructure
         //public byte[] Data { get; }
         public List<Subrecord> Subrecords { get; set; }
 
-        public Record(RecordHeader header)
+        public Record(RecordHeader header, List<Subrecord> subrecords)
         {
             Header = header;
+            Subrecords = subrecords;
         }
     }
 }

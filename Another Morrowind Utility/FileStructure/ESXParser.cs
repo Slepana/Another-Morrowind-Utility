@@ -61,7 +61,7 @@ namespace Another_Morrowind_Utility.FileStructure
                 throw new Exception("Unexpected file size.");
             bytesRead += count;
 
-            return factory.ConstructRecord(header, data);
+            return factory.ConstructRecord(header, ParseSubrecords(data));
         }
 
         private List<Subrecord> ParseSubrecords(byte[] data)

@@ -16,10 +16,9 @@ namespace Another_Morrowind_Utility.FileStructure
         public int RecordsNum { get; }
 
 
-        public TES3Record(RecordHeader header, byte[] data) : base(header)
+        public TES3Record(RecordHeader header, List<Subrecord> subrecords) : base(header, subrecords)
         {
-            Subrecords = new List<Subrecord>();
-
+            /*
             Version = BitConverter.ToSingle(data, 8).ToString();
 
             IsMaster = (data[15] == 1);
@@ -36,6 +35,7 @@ namespace Another_Morrowind_Utility.FileStructure
             Description = Encoding.ASCII.GetString(data, 48, count);
 
             RecordsNum = BitConverter.ToInt32(data, 304);
+            */
         }
     }
 }
