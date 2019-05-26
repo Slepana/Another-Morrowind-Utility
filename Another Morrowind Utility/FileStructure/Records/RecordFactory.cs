@@ -13,7 +13,7 @@ namespace Another_Morrowind_Utility.FileStructure.Records
         {
             dict = new Dictionary<string, Func<RecordHeader, List<Subrecord>, Record>>();
 
-            dict.Add("TES3", (h, d) => new Record(h, d));
+            dict.Add("TES3", (h, d) => new TES3Record(h, d));
             dict.Add("GMST", (h, d) => new Record(h, d));
             dict.Add("GLOB", (h, d) => new Record(h, d));
             dict.Add("CLAS", (h, d) => new Record(h, d));

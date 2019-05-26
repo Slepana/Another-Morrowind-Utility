@@ -36,12 +36,12 @@ namespace Another_Morrowind_Utility
 
                 StringBuilder sb = new StringBuilder();
 
-                /*
+                
                 TES3Record tes3record = file.Records[0] as TES3Record;
                 sb.Append(tes3record.Version).Append('\n').Append(tes3record.Author).Append('\n');
                 sb.Append(tes3record.Description).Append('\n').Append(tes3record.IsMaster).Append('\n');
                 sb.Append(tes3record.RecordsNum).Append('\n').Append('\n');
-                */
+                
 
                 foreach (Record r in file.Records)
                 {
