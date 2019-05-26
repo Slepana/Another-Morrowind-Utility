@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Another_Morrowind_Utility.FileStructure.Records;
 
 namespace Another_Morrowind_Utility.FileStructure
@@ -13,7 +11,6 @@ namespace Another_Morrowind_Utility.FileStructure
         private const int HEADER_SIZE = 16;
 
         RecordFactory factory = new RecordFactory();
-        int bytesRead = 0;
 
         /// <summary>
         /// Reads all records in a file and returns a collection of them
@@ -51,7 +48,6 @@ namespace Another_Morrowind_Utility.FileStructure
                 return null;
             else if (count < 16)
                 throw new FormatException("Unexpected file size.");
-            bytesRead += count;
 
             RecordHeader header = new RecordHeader(rawHeader);
 
@@ -59,7 +55,6 @@ namespace Another_Morrowind_Utility.FileStructure
             count = fs.Read(data, 0, header.Size);
             if (count < header.Size)
                 throw new Exception("Unexpected file size.");
-            bytesRead += count;
 
             return factory.ConstructRecord(header, data);
         }
@@ -96,20 +91,5 @@ namespace Another_Morrowind_Utility.FileStructure
 
             return subrecords;
         }
-
-        /// <summary>
-        /// Constructs a new RecordHeader from raw data
-        /// </summary>
-        /// <param name="rawHeader">16 bytes of header data</param>
-        /// <returns>New RecordHeader</returns>
-        /*private RecordHeader ConstructHeader(byte[] rawHeader)
-        {
-            string type = Encoding.ASCII.GetString(rawHeader, 0, 4);
-            int size = BitConverter.ToInt32(rawHeader, 4);
-            int unknown = BitConverter.ToInt32(rawHeader, 8);
-            int flags = BitConverter.ToInt32(rawHeader, 12);
-
-            return new RecordHeader(rawHeader, map.StringToRecType(type), size, unknown, flags);
-        } */
     }
 }

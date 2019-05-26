@@ -53,8 +53,6 @@
     <Compile Include="FileStructure\Records\RecordFactory.cs" />
     <Compile Include="FileStructure\Records\RecordHeader.cs" />
     <Compile Include="FileStructure\Records\TES3Record.cs" />
-    <Compile Include="FileStructure\Subrecords\SubrecordHeader.cs" />
-    <Compile Include="FileStructure\Types.cs" />
     <Compile Include="FileStructure\Subrecords\Subrecord.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
