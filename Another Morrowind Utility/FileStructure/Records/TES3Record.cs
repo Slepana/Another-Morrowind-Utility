@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Another_Morrowind_Utility.FileStructure
 {
     class TES3Record : Record
     {
+        // HEDR properties
         public string Version { get; }
         public string Author { get; }
         public string Description { get; }
         public bool IsMaster { get; }
         public int RecordsNum { get; }
 
+        // MAST and DATA properties
+        public List<Tuple<string, long>> Masters { get; }
 
         public TES3Record(RecordHeader header, List<Subrecord> subrecords) : base(header, subrecords)
         {
@@ -42,25 +43,23 @@ namespace Another_Morrowind_Utility.FileStructure
                 RecordsNum = BitConverter.ToInt32(subrecords[0].Data, 296);
             }
             else throw new FormatException("Invalid header structire.");
+            
+            string master;
+            long length;
+            Masters = new List<Tuple<string, long>>();
 
-            /*
-            Version = BitConverter.ToSingle(data, 8).ToString();
+            // each MAST subrecord has a DATA subrecord following it
+            for (int MASTcount = 1; MASTcount < subrecords.Count; MASTcount += 2) 
+            {
+                // Again c-strings
+                int count = 0;
+                while (subrecords[MASTcount].Data[count] != 0)
+                    count++;
+                master = Encoding.ASCII.GetString(subrecords[MASTcount].Data, 0, count);
+                length = BitConverter.ToInt64(subrecords[MASTcount + 1].Data, 0);
 
-            IsMaster = (data[15] == 1);
-
-            // Because C# doesn't like c-strings
-            int count = 0;
-            while (count <= 32 && data[16 + count] != 0)
-                count++;
-            Author = Encoding.ASCII.GetString(data, 16, count);
-
-            count = 0;
-            while (count <= 265 && data[48 + count] != 0)
-                count++;
-            Description = Encoding.ASCII.GetString(data, 48, count);
-
-            RecordsNum = BitConverter.ToInt32(data, 304);
-            */
+                Masters.Add(Tuple.Create(master, length));
+            }
         }
     }
 }

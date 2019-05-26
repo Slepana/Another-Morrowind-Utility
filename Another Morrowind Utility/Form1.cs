@@ -41,7 +41,11 @@ namespace Another_Morrowind_Utility
                 sb.Append(tes3record.Version).Append('\n').Append(tes3record.Author).Append('\n');
                 sb.Append(tes3record.Description).Append('\n').Append(tes3record.IsMaster).Append('\n');
                 sb.Append(tes3record.RecordsNum).Append('\n').Append('\n');
-                
+                foreach (Tuple<string, long> t in tes3record.Masters)
+                {
+                    sb.Append(t.Item1).Append(' ').Append(t.Item2).Append('\n');
+                }
+                sb.Append('\n');
 
                 foreach (Record r in file.Records)
                 {
