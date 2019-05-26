@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Another_Morrowind_Utility.FileStructure;
 
@@ -30,55 +23,39 @@ namespace Another_Morrowind_Utility
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //try
-                //{
-                ESXFile file = parser.Parse(openFileDialog.FileName);
-
-                StringBuilder sb = new StringBuilder();
-
-                
-                TES3Record tes3record = file.Records[0] as TES3Record;
-                sb.Append(tes3record.Version).Append('\n').Append(tes3record.Author).Append('\n');
-                sb.Append(tes3record.Description).Append('\n').Append(tes3record.IsMaster).Append('\n');
-                sb.Append(tes3record.RecordsNum).Append('\n').Append('\n');
-                foreach (Tuple<string, long> t in tes3record.Masters)
+                try
                 {
-                    sb.Append(t.Item1).Append(' ').Append(t.Item2).Append('\n');
-                }
-                sb.Append('\n');
+                    ESXFile file = parser.Parse(openFileDialog.FileName);
 
-                foreach (Record r in file.Records)
-                {
-                    sb.Append(r.Header.Type).Append(' ').Append(r.Header.Size).Append('\n');
-                    foreach (Subrecord s in r.Subrecords)
+                    StringBuilder sb = new StringBuilder();
+                    
+                    TES3Record tes3record = file.Records[0] as TES3Record;
+                    sb.Append(tes3record.Version).Append('\n').Append(tes3record.Author).Append('\n');
+                    sb.Append(tes3record.Description).Append('\n').Append(tes3record.IsMaster).Append('\n');
+                    sb.Append(tes3record.RecordsNum).Append('\n').Append('\n');
+
+                    foreach (Tuple<string, long> t in tes3record.Masters)
                     {
-                        sb.Append('\t' + s.Type).Append(' ').Append(s.Size).Append('\n');
+                        sb.Append(t.Item1).Append(' ').Append(t.Item2).Append('\n');
                     }
-                }
-                sb.Append('\n').Append(file.Records.Count.ToString());
+                    sb.Append('\n');
 
-                textBox1.Lines = sb.ToString().Split('\n');
-
-                /*
-                file.Records.Remove(file.Records[3]);
-
-                using (FileStream fs = File.Create("test.esp"))
-                {
-                    List<byte> bytes = new List<byte>();
-                    foreach(Record r in file.Records)
+                    foreach (Record r in file.Records)
                     {
-                        bytes.AddRange(r.Header.Raw);
-                        bytes.AddRange(r.Data);
+                        sb.Append(r.Header.Type).Append(' ').Append(r.Header.Size).Append('\n');
+                        foreach (Subrecord s in r.Subrecords)
+                        {
+                            sb.Append('\t' + s.Type).Append(' ').Append(s.Size).Append('\n');
+                        }
                     }
+                    sb.Append('\n').Append(file.Records.Count.ToString());
 
-                    fs.Write(bytes.ToArray(), 0, bytes.Count);
+                    textBox1.Lines = sb.ToString().Split('\n');
                 }
-                */
-                //}
-                //catch(Exception ex)
-                //{
-                //    MessageBox.Show("Error processing file." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //}
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error processing file." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
